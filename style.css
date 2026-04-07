@@ -276,3 +276,99 @@ footer {
 .danger {
   background: red !important;
 }
+
+/* =========================
+   RESPONSIVE - MOBILE
+========================= */
+@media (max-width: 768px) {
+
+  /* HERO */
+  .hero {
+    height: 250px;
+    text-align: center;
+  }
+
+  .overlay h1 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    margin: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  /* MAIN */
+  main {
+    margin: 15px;
+    padding: 20px;
+  }
+
+  /* INTRO */
+  .intro h2 {
+    font-size: 22px;
+  }
+
+  .intro p {
+    font-size: 14px;
+  }
+
+  /* CARDS */
+  .cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+  }
+
+  /* TABLE */
+  table {
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 10px 5px;
+  }
+
+  /* FORM */
+  .form-box input {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .form-box button {
+    width: 100%;
+  }
+
+  /* SUB HEADER */
+  .sub-header h1 {
+    font-size: 22px;
+  }
+
+  .sub-header nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sub-header nav a {
+    width: 100%;
+    text-align: center;
+  }
+}
