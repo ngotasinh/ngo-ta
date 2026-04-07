@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách Ủng Hộ Làm Sân</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="sub-header">
+    <h1>Danh sách Ủng Hộ Làm Sân</h1>
+    <nav>
+      <a href="index.html">Trang Chủ</a>
+      <a href="list.html">Đóng Tiền Chạp</a>
+      <a href="list-san.html" class="active">Ủng Hộ Làm Sân</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="summary">
+      Tổng tiền: <strong id="total">0</strong> đ
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Họ và tên</th>
+          <th>Thời gian</th>
+          <th>Số tiền</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Nhánh Nhì Họ Ngô Tá</p>
+  </footer>
+
+  <script>
+    fetch("data-san.json")
+      .then(res => res.json())
+      .then(data => {
+        let html = "";
+        let total = 0;
+
+        data.forEach((item, index) => {
+          total += item.money;
+
+          html += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.name}</td>
+                <td>${item.time}</td>
+                <td>${item.money.toLocaleString()} đ</td>
+                <td>${item.notice}</td>
+            </tr>
+            `;
+        });
+
+        document.getElementById("table-body").innerHTML = html;
+        document.getElementById("total").innerText = total.toLocaleString();
+      });
+  </script>
+
+</body>
+
+</html>
