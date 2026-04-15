@@ -1,7 +1,8 @@
 [
     {"name": "Ngô Bá Thành", "time": "05-042026", "money": 8500000, "notice": "Hỗ trợ gạch terrazzo sân trước nhà thờ nhánh"},
-    {"name": "Ngô Tá Ủy", "time": "05-042026", "money": 2000000, "notice": "Tiền mặt"},
+    {"name": "Ngô Tá Ủy", "time": "05-042026", "money": 4000000, "notice": "Tiền mặt"},
     {"name": "Ngô Mạnh Thảo", "time": "07-04-2026", "money": 2000000, "notice": "Chuyển khoản"},
     {"name": "Ngô Minh Phúc", "time": "11-04-2026", "money": 500000, "notice": "Chuyển khoản"},
-    {"name": "Ngô Minh Đức", "time": "11-04-2026", "money": 500000, "notice": "Chuyển khoản"}
+    {"name": "Ngô Minh Đức", "time": "11-04-2026", "money": 500000, "notice": "Chuyển khoản"},
+    {"name": "Ngô Chí Thành", "time": "13-04-2026", "money": 1000000, "notice": "Chuyển khoản"}
 ]
