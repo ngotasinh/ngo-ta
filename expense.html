@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý chi tiêu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="sub-header">
+    <h1>💰 Quản lý Tài Chính</h1>
+    <nav>
+      <a href="index.html">Trang Chủ</a>
+      <a href="list.html">Đóng Tiền Chạp</a>
+      <a href="list-san.html">Ủng Hộ Làm Sân</a>
+      <a href="expense.html" class="active">Tài Chính</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- SUMMARY SECTION -->
+    <div class="finance-summary">
+      <div class="summary-box income">
+        <h3>💵 Tiền Thu</h3>
+        <p class="amount" id="total-income">0 đ</p>
+      </div>
+
+      <div class="summary-box expense">
+        <h3>💸 Tiền Chi</h3>
+        <p class="amount" id="total-expense">0 đ</p>
+      </div>
+
+      <div class="summary-box balance">
+        <h3>✅ Tiền Còn Lại</h3>
+        <p class="amount" id="total-balance">0 đ</p>
+      </div>
+    </div>
+
+    <!-- INCOME SECTION -->
+    <section class="section income-detail">
+      <h2>📋 Chi tiết Tiền Thu</h2>
+      <div class="income-breakdown">
+        <div class="breakdown-item">
+          <span class="label">Tiền Con Cháu Nội:</span>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span class="value" id="chap-total">0 đ</span>
+            <span class="value" id="chap-usd">+ 100 USD</span>
+          </div>
+        </div>
+        <div class="breakdown-item">
+          <span class="label">Tiền Ủng Hộ Làm Sân:</span>
+          <span class="value" id="san-income-total">0 đ</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="label">Tiền Đi Của Con Cháu Ngoại:</span>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span class="value" id="outside-total">68,400,000 đ</span>
+            <span class="value" id="outside-usd">+ 100 USD</span>
+          </div>
+        </div>
+        <div class="breakdown-item">
+          <span class="label">Tiền Bán Thịt Bò:</span>
+          <span class="value" id="beef-total">2,990,000 đ</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="label">Tiền Quỹ Còn Lại:</span>
+          <span class="value" id="fund-total">2,800,000 đ</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPENSE SECTION -->
+    <section class="section">
+      <h2>📊 Chi tiết tiền chi</h2>
+
+      <h3 style="margin-top: 30px; color: #8B0000;">Tóm tắt các khoản chi</h3>
+      <div id="expense-container" class="expense-container"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Nhánh Nhì Họ Ngô Tá</p>
+  </footer>
+
+  <script>
+    // Configuration
+    const CONFIG = {
+      chapUSD: 100,
+      outsideUSD: 100,
+      outsideTotal: 68400000,
+      beefTotal: 2990000,
+      fundTotal: 2800000
+    };
+
+    // State
+    let state = {
+      totalIncomeVND: 0,
+      totalIncomeUSD: 0,
+      totalExpenseVND: 0,
+      totalExpenseUSD: 0,
+      chapTotal: 0,
+      sanTotal: 0,
+      beefTotal: 0,
+      fundTotal: 0
+    };
+
+    // Utility function to format currency display
+    function formatCurrency(vnd, usd = 0) {
+      if (vnd > 0 && usd > 0) {
+        return `${vnd.toLocaleString()} đ + ${usd} USD`;
+      } else if (vnd > 0) {
+        return `${vnd.toLocaleString()} đ`;
+      } else if (usd > 0) {
+        return `${usd} USD`;
+      }
+      return "0";
+    }
+
+    // Update all display elements
+    function updateAllDisplays() {
+      // Update income display
+      document.getElementById("total-income").innerText = formatCurrency(state.totalIncomeVND, state.totalIncomeUSD);
+
+      // Update expense display
+      document.getElementById("total-expense").innerText = formatCurrency(state.totalExpenseVND, state.totalExpenseUSD);
+
+      // Update balance display
+      const balanceVND = state.totalIncomeVND - state.totalExpenseVND;
+      const balanceUSD = state.totalIncomeUSD - state.totalExpenseUSD;
+      document.getElementById("total-balance").innerText = formatCurrency(balanceVND, balanceUSD);
+    }
+
+    // Load and process all data
+    async function loadFinanceData() {
+      try {
+        // Fetch all data in parallel
+        const [chapData, sanData, expenseData] = await Promise.all([
+          fetch("data.json").then(res => {
+            if (!res.ok) throw new Error(`Failed to load data.json: ${res.status}`);
+            return res.json();
+          }),
+          fetch("data-san.json").then(res => {
+            if (!res.ok) throw new Error(`Failed to load data-san.json: ${res.status}`);
+            return res.json();
+          }),
+          fetch("expense-data.json").then(res => {
+            if (!res.ok) throw new Error(`Failed to load expense-data.json: ${res.status}`);
+            return res.json();
+          })
+        ]);
+
+        // Process chap data
+        state.chapTotal = chapData.reduce((sum, item) => sum + item.money, 0);
+        document.getElementById("chap-total").innerText = state.chapTotal.toLocaleString() + " đ";
+
+        // Process san data
+        state.sanTotal = sanData.reduce((sum, item) => sum + item.money, 0);
+        document.getElementById("san-income-total").innerText = state.sanTotal.toLocaleString() + " đ";
+
+        // Update outside total display
+        document.getElementById("outside-total").innerText = CONFIG.outsideTotal.toLocaleString() + " đ";
+
+        // Update beef and fund totals
+        state.beefTotal = CONFIG.beefTotal;
+        state.fundTotal = CONFIG.fundTotal;
+        document.getElementById("beef-total").innerText = state.beefTotal.toLocaleString() + " đ";
+        document.getElementById("fund-total").innerText = state.fundTotal.toLocaleString() + " đ";
+
+        // Set USD amounts
+        document.getElementById("chap-usd").innerText = " + " + CONFIG.chapUSD + " USD";
+        document.getElementById("outside-usd").innerText = " + " + CONFIG.outsideUSD + " USD";
+
+        // Calculate income totals
+        state.totalIncomeVND = state.chapTotal + state.sanTotal + CONFIG.outsideTotal + state.beefTotal + state.fundTotal;
+        state.totalIncomeUSD = CONFIG.chapUSD + CONFIG.outsideUSD;
+
+        // Process expense data
+        processExpenseData(expenseData);
+
+        // Update all displays at once
+        updateAllDisplays();
+
+      } catch (error) {
+        console.error("Error loading finance data:", error);
+        document.getElementById("total-income").innerText = "Error loading data";
+        document.getElementById("total-expense").innerText = "Error loading data";
+      }
+    }
+
+    // Process expense data and generate HTML
+    function processExpenseData(expenseData) {
+      state.totalExpenseVND = 0;
+      state.totalExpenseUSD = 0;
+      let categoryHtml = "";
+
+      expenseData.forEach((categoryData) => {
+        let categoryTotalVND = 0;
+        let categoryTotalUSD = 0;
+        let itemsHtml = "";
+
+        categoryData.items.forEach((item) => {
+          if (item.currency === "USD") {
+            state.totalExpenseUSD += item.amount;
+            categoryTotalUSD += item.amount;
+          } else {
+            state.totalExpenseVND += item.amount;
+            categoryTotalVND += item.amount;
+          }
+
+          itemsHtml += `
+            <div class="expense-item">
+              <span class="expense-name">${item.name}</span>
+              <span class="expense-amount">${item.amount.toLocaleString()} ${item.currency}</span>
+            </div>
+          `;
+        });
+
+        const categoryTotal = formatCurrency(categoryTotalVND, categoryTotalUSD);
+        categoryHtml += `
+          <div class="expense-category">
+            <h3>${categoryData.category}</h3>
+            <div class="expense-items">
+              ${itemsHtml}
+            </div>
+            <div class="category-total">
+              Tổng: <strong>${categoryTotal}</strong>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById("expense-container").innerHTML = categoryHtml;
+    }
+
+    // Start loading data when page loads
+    document.addEventListener("DOMContentLoaded", loadFinanceData);
+  </script>
+
+</body>
+
+</html>

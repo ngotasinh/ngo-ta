@@ -1,0 +1,54 @@
+[
+  {
+    "category": "Sửa chữa nhà thờ",
+    "items": [
+      {"name": "Làm sân nhà thờ", "amount": 28182000, "currency": "đ"},
+      {"name": "Sơn", "amount": 13870000, "currency": "đ"},
+      {"name": "Sửa cửa sắt", "amount": 2700000, "currency": "đ"},
+      {"name": "Vật tư sửa hệ thống điện", "amount": 740000, "currency": "đ"}
+    ]
+  },
+  {
+    "category": "Chi phí tổ chức chạp",
+    "items": [
+      {"name": "Tiền mua bò", "amount": 16500000, "currency": "đ"},
+      {"name": "Tiền mua heo", "amount": 4000000, "currency": "đ"},
+      {"name": "Tiền công làm bò,heo", "amount": 3500000, "currency": "đ"},
+      {"name": "Thau, chổi, khăn", "amount": 140000, "currency": "đ"},
+      {"name": "Quả bồng, tách nước", "amount": 130000, "currency": "đ"},
+      {"name": "Bóng điện, dây điện", "amount": 280000, "currency": "đ"},
+      {"name": "Lưỡi Lam, Bì thư, bút bi", "amount": 100000, "currency": "đ"},
+      {"name": "In giấy mời", "amount": 850000, "currency": "đ"},
+      {"name": "Âm thanh", "amount": 800000, "currency": "đ"},
+      {"name": "Hoa quả, bông chuối", "amount": 1625000, "currency": "đ"},
+      {"name": "Tiền đi chợ", "amount": 1355000, "currency": "đ"},
+      {"name": "Tiền đá, nước suối", "amount": 350000, "currency": "đ"},
+      {"name": "Tiền vịt quay", "amount": 200000, "currency": "đ"},
+      {"name": "Tiền mua thuốc cỏ", "amount": 100000, "currency": "đ"},
+      {"name": "Tiền công nấu ăn", "amount": 11400000, "currency": "đ"},
+      {"name": "Tiền chuối chát, khăn, tăm, giấy", "amount": 300000, "currency": "đ"},
+      {"name": "Tiền ga", "amount": 1000000, "currency": "đ"},
+      {"name": "Tiền rạp", "amount": 5500000, "currency": "đ"},
+      {"name": "Tiền Bia, Nước ngọt", "amount": 5850000, "currency": "đ"},
+      {"name": "Câu trầu, rượu", "amount": 150000, "currency": "đ"}
+    ]
+  },
+  {
+    "category": "Lễ nghi",
+    "items": [
+      {"name": "Mâm cơm tạ quá", "amount": 1000000, "currency": "đ"}
+    ]
+  },
+  {
+    "category": "Chi phí vận hành",
+    "items": [
+      {"name": "Tiền điện nước từ 2023 đến nay", "amount": 1500000, "currency": "đ"}
+    ]
+  },
+  {
+    "category": "Chi phí khác",
+    "items": [
+      {"name": "Hỗ trợ cơm trưa dọn lụt", "amount": 470000, "currency": "đ"}
+    ]
+  }
+]
