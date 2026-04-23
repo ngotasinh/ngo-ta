@@ -22,7 +22,7 @@
       {"name": "Âm thanh", "amount": 800000, "currency": "đ"},
       {"name": "Hoa quả, bông chuối", "amount": 1625000, "currency": "đ"},
       {"name": "Tiền đi chợ", "amount": 1355000, "currency": "đ"},
-      {"name": "Tiền đá, nước suối", "amount": 350000, "currency": "đ"},
+      {"name": "Tiền đá, nước suối", "amount": 530000, "currency": "đ"},
       {"name": "Tiền vịt quay", "amount": 200000, "currency": "đ"},
       {"name": "Tiền mua thuốc cỏ", "amount": 100000, "currency": "đ"},
       {"name": "Tiền công nấu ăn", "amount": 11400000, "currency": "đ"},
@@ -30,7 +30,7 @@
       {"name": "Tiền ga", "amount": 1000000, "currency": "đ"},
       {"name": "Tiền rạp", "amount": 5500000, "currency": "đ"},
       {"name": "Tiền Bia, Nước ngọt", "amount": 5850000, "currency": "đ"},
-      {"name": "Câu trầu, rượu", "amount": 150000, "currency": "đ"}
+      {"name": "Cau trầu, rượu", "amount": 150000, "currency": "đ"}
     ]
   },
   {
@@ -48,7 +48,8 @@
   {
     "category": "Chi phí khác",
     "items": [
-      {"name": "Hỗ trợ cơm trưa dọn lụt", "amount": 470000, "currency": "đ"}
+      {"name": "Hỗ trợ cơm trưa dọn lụt", "amount": 470000, "currency": "đ"},
+      {"name": "Mua 2 bộ bàn tròn Inox", "amount": 4200000, "currency": "đ"}
     ]
   }
 ]
