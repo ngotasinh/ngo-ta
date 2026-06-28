@@ -42,7 +42,8 @@
   {
     "category": "Chi phí vận hành",
     "items": [
-      {"name": "Tiền điện nước từ 2023 đến nay", "amount": 1500000, "currency": "đ"}
+      {"name": "Tiền điện nước từ 2023 đến nay", "amount": 1500000, "currency": "đ"},
+      {"name": "Tiền đóng cho Họ từ 2022 đến 2026", "amount": 4000000, "currency": "đ"}
     ]
   },
   {
