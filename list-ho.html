@@ -4,19 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ủng Hộ Làm Sân – Nhánh Nhì Họ Ngô Tá</title>
+  <title>Đóng Tiền Họ – Nhánh Nhì Họ Ngô Tá</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <header class="sub-header">
-    <h1>Danh sách Ủng Hộ Làm Sân</h1>
+    <h1>Danh sách đóng tiền họ</h1>
     <nav>
       <a href="index.html">Trang Chủ</a>
       <a href="list.html">Đóng Tiền Chạp</a>
-      <a href="list-san.html" class="active">Ủng Hộ Làm Sân</a>
-      <a href="list-ho.html">Đóng Tiền Họ</a>
+      <a href="list-san.html">Ủng Hộ Làm Sân</a>
+      <a href="list-ho.html" class="active">Đóng Tiền Họ</a>
       <a href="expense.html">Chi tiêu</a>
     </nav>
   </header>
@@ -47,7 +47,7 @@
   </footer>
 
   <script>
-    fetch("data-san.json")
+    fetch("data-ho.json")
       .then(res => res.json())
       .then(data => {
         let html = "";

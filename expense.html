@@ -16,6 +16,7 @@
       <a href="index.html">Trang Chủ</a>
       <a href="list.html">Đóng Tiền Chạp</a>
       <a href="list-san.html">Ủng Hộ Làm Sân</a>
+      <a href="list-ho.html">Đóng Tiền Họ</a>
       <a href="expense.html" class="active">Tài Chính</a>
     </nav>
   </header>
@@ -54,6 +55,10 @@
         <div class="breakdown-item">
           <span class="label">Tiền Ủng Hộ Làm Sân:</span>
           <span class="value" id="san-income-total">0 đ</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="label">Tiền Đóng Họ:</span>
+          <span class="value" id="ho-income-total">0 đ</span>
         </div>
         <div class="breakdown-item">
           <span class="label">Tiền Đi Của Con Cháu Ngoại:</span>
@@ -100,7 +105,8 @@
       totalExpenseVND: 0,
       totalExpenseUSD: 0,
       chapTotal: 0,
-      sanTotal: 0
+      sanTotal: 0,
+      hoTotal: 0
     };
 
     function formatCurrency(vnd, usd = 0) {
@@ -121,9 +127,10 @@
 
     async function loadFinanceData() {
       try {
-        const [chapData, sanData, expenseData] = await Promise.all([
+        const [chapData, sanData, hoData, expenseData] = await Promise.all([
           fetch("data.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
           fetch("data-san.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
+          fetch("data-ho.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
           fetch("expense-data.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
         ]);
 
@@ -133,13 +140,16 @@
         state.sanTotal = sanData.reduce((s, i) => s + i.money, 0);
         document.getElementById("san-income-total").innerText = state.sanTotal.toLocaleString() + " đ";
 
+        state.hoTotal = hoData.reduce((s, i) => s + i.money, 0);
+        document.getElementById("ho-income-total").innerText = state.hoTotal.toLocaleString() + " đ";
+
         document.getElementById("outside-total").innerText = CONFIG.outsideTotal.toLocaleString() + " đ";
         document.getElementById("beef-total").innerText    = CONFIG.beefTotal.toLocaleString() + " đ";
         document.getElementById("fund-total").innerText    = CONFIG.fundTotal.toLocaleString() + " đ";
         document.getElementById("chap-usd").innerText      = "+ " + CONFIG.chapUSD + " USD";
         document.getElementById("outside-usd").innerText   = "+ " + CONFIG.outsideUSD + " USD";
 
-        state.totalIncomeVND = state.chapTotal + state.sanTotal + CONFIG.outsideTotal + CONFIG.beefTotal + CONFIG.fundTotal;
+        state.totalIncomeVND = state.chapTotal + state.sanTotal + state.hoTotal + CONFIG.outsideTotal + CONFIG.beefTotal + CONFIG.fundTotal;
         state.totalIncomeUSD = CONFIG.chapUSD + CONFIG.outsideUSD;
 
         processExpenseData(expenseData);
