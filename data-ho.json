@@ -16,5 +16,6 @@
     {"name": "Ngô Tá Đề", "time": "22-07-2026", "money": 1000000, "notice": "Chuyển khoản"},
     {"name": "Ngô Tá Ga", "time": "20-07-2026", "money": 1000000, "notice": "Tiền Mặt"},
     {"name": "Ngô Tá Nguyên", "time": "29-07-2026", "money": 1000000, "notice": "Chuyển khoản"},
-    {"name": "GĐ Ngô Trọng Thương", "time": "29-07-2026", "money": 1500000, "notice": "Chuyển khoản"}
+    {"name": "GĐ Ngô Trọng Thương", "time": "29-07-2026", "money": 1500000, "notice": "Chuyển khoản"},
+    {"name": "Ngô Tá Tài", "time": "29-07-2026", "money": 1000000, "notice": "Chuyển khoản"}
 ]
