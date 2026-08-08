@@ -23,5 +23,8 @@
     {"name": "Ngô Bá Thành", "time": "07-08-2026", "money": 1000000, "notice": "Chuyển khoản"},
     {"name": "Ngô Bá Thông", "time": "07-08-2026", "money": 1000000, "notice": "Chuyển khoản"},
     {"name": "Ngô Bá Thái", "time": "07-08-2026", "money": 1000000, "notice": "Chuyển khoản"},
-    {"name": "Ngô Bá Thuận", "time": "07-08-2026", "money": 1000000, "notice": "Chuyển khoản"}
+    {"name": "Ngô Bá Thuận", "time": "07-08-2026", "money": 1000000, "notice": "Chuyển khoản"},
+    {"name": "GĐ Ngô Tá Hiền", "time": "08-08-2026", "money": 1500000, "notice": "Chuyển khoản"},
+    {"name": "Ngô Tá Châu", "time": "08-08-2026", "money": 500000, "notice": "Chuyển khoản"},
+    {"name": "Ngô Tá Hòa", "time": "07-08-2026", "money": 1000000, "notice": "Chuyển khoản"}
 ]
