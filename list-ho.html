@@ -48,7 +48,10 @@
 
   <script>
     fetch("data-ho.json")
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         let html = "";
         let total = 0;
@@ -61,14 +64,21 @@
                 <td>${index + 1}</td>
                 <td>${item.name}</td>
                 <td>${item.time}</td>
-                <td>${item.money.toLocaleString()} đ</td>
+                <td>${item.money.toLocaleString('vi-VN')} đ</td>
                 <td>${item.notice}</td>
             </tr>
             `;
         });
 
         document.getElementById("table-body").innerHTML = html;
-        document.getElementById("total").innerText = total.toLocaleString();
+        document.getElementById("total").innerText = total.toLocaleString('vi-VN');
+      })
+      .catch(err => {
+        // Surface the failure instead of leaving a misleading "0 đ" on screen
+        console.error("Lỗi tải dữ liệu:", err);
+        document.getElementById("total").innerText = "— lỗi tải dữ liệu —";
+        document.getElementById("table-body").innerHTML =
+          `<tr><td colspan="5">Không tải được dữ liệu. Vui lòng tải lại trang.</td></tr>`;
       });
   </script>
 

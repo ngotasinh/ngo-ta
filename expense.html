@@ -47,10 +47,7 @@
       <div class="income-breakdown">
         <div class="breakdown-item">
           <span class="label">Tiền Con Cháu Nội:</span>
-          <div style="display:flex;flex-direction:column;gap:4px;text-align:right;">
-            <span class="value" id="chap-total">0 đ</span>
-            <span class="value" id="chap-usd">+ 100 USD</span>
-          </div>
+          <span class="value" id="chap-total">0 đ</span>
         </div>
         <div class="breakdown-item">
           <span class="label">Tiền Ủng Hộ Làm Sân:</span>
@@ -62,10 +59,7 @@
         </div>
         <div class="breakdown-item">
           <span class="label">Tiền Đi Của Con Cháu Ngoại:</span>
-          <div style="display:flex;flex-direction:column;gap:4px;text-align:right;">
-            <span class="value" id="outside-total">66,000,000 đ</span>
-            <span class="value" id="outside-usd">+ 100 USD</span>
-          </div>
+          <span class="value" id="outside-total">66,000,000 đ</span>
         </div>
         <div class="breakdown-item">
           <span class="label">Tiền Bán Thịt Bò:</span>
@@ -74,6 +68,10 @@
         <div class="breakdown-item">
           <span class="label">Tiền Quỹ Còn Lại:</span>
           <span class="value" id="fund-total">2,800,000 đ</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="label">Tiền Cúng USD:</span>
+          <span class="value" id="usd-total">0 USD</span>
         </div>
       </div>
     </section>
@@ -92,8 +90,7 @@
 
   <script>
     const CONFIG = {
-      chapUSD: 100,
-      outsideUSD: 100,
+      totalUSD: 200,
       outsideTotal: 66000000,
       beefTotal: 2990000,
       fundTotal: 2800000
@@ -110,8 +107,8 @@
     };
 
     function formatCurrency(vnd, usd = 0) {
-      if (vnd > 0 && usd > 0) return `${vnd.toLocaleString()} đ + ${usd} USD`;
-      if (vnd > 0) return `${vnd.toLocaleString()} đ`;
+      if (vnd > 0 && usd > 0) return `${vnd.toLocaleString('vi-VN')} đ + ${usd} USD`;
+      if (vnd > 0) return `${vnd.toLocaleString('vi-VN')} đ`;
       if (usd > 0) return `${usd} USD`;
       return "0";
     }
@@ -135,22 +132,21 @@
         ]);
 
         state.chapTotal = chapData.reduce((s, i) => s + i.money, 0);
-        document.getElementById("chap-total").innerText = state.chapTotal.toLocaleString() + " đ";
+        document.getElementById("chap-total").innerText = state.chapTotal.toLocaleString('vi-VN') + " đ";
 
         state.sanTotal = sanData.reduce((s, i) => s + i.money, 0);
-        document.getElementById("san-income-total").innerText = state.sanTotal.toLocaleString() + " đ";
+        document.getElementById("san-income-total").innerText = state.sanTotal.toLocaleString('vi-VN') + " đ";
 
         state.hoTotal = hoData.reduce((s, i) => s + i.money, 0);
-        document.getElementById("ho-income-total").innerText = state.hoTotal.toLocaleString() + " đ";
+        document.getElementById("ho-income-total").innerText = state.hoTotal.toLocaleString('vi-VN') + " đ";
 
-        document.getElementById("outside-total").innerText = CONFIG.outsideTotal.toLocaleString() + " đ";
-        document.getElementById("beef-total").innerText    = CONFIG.beefTotal.toLocaleString() + " đ";
-        document.getElementById("fund-total").innerText    = CONFIG.fundTotal.toLocaleString() + " đ";
-        document.getElementById("chap-usd").innerText      = "+ " + CONFIG.chapUSD + " USD";
-        document.getElementById("outside-usd").innerText   = "+ " + CONFIG.outsideUSD + " USD";
+        document.getElementById("outside-total").innerText = CONFIG.outsideTotal.toLocaleString('vi-VN') + " đ";
+        document.getElementById("beef-total").innerText    = CONFIG.beefTotal.toLocaleString('vi-VN') + " đ";
+        document.getElementById("fund-total").innerText    = CONFIG.fundTotal.toLocaleString('vi-VN') + " đ";
+        document.getElementById("usd-total").innerText      = CONFIG.totalUSD + " USD";
 
         state.totalIncomeVND = state.chapTotal + state.sanTotal + state.hoTotal + CONFIG.outsideTotal + CONFIG.beefTotal + CONFIG.fundTotal;
-        state.totalIncomeUSD = CONFIG.chapUSD + CONFIG.outsideUSD;
+        state.totalIncomeUSD = CONFIG.totalUSD;
 
         processExpenseData(expenseData);
         updateAllDisplays();
@@ -182,7 +178,7 @@
           itemsHtml += `
             <div class="expense-item">
               <span class="expense-name">${item.name}</span>
-              <span class="expense-amount">${item.amount.toLocaleString()} ${item.currency}</span>
+              <span class="expense-amount">${item.amount.toLocaleString('vi-VN')} ${item.currency}</span>
             </div>`;
         });
 
