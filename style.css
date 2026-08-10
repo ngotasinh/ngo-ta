@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
-
 /* =====================
    Design Tokens
    ===================== */
@@ -465,13 +463,6 @@ tbody tr:last-child td {
 }
 
 /* =====================
-   STATUS BADGES
-   ===================== */
-.ok  { color: var(--green-700); font-weight: 600; }
-.mid { color: #D97706;          font-weight: 600; }
-.low { color: var(--red-700);   font-weight: 600; }
-
-/* =====================
    SUMMARY BAR
    ===================== */
 .summary {
@@ -520,69 +511,6 @@ footer p {
 
 footer strong {
   color: white;
-}
-
-/* =====================
-   FORM
-   ===================== */
-.form-box {
-  background: var(--red-50);
-  padding: 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--neutral-200);
-  margin-bottom: 20px;
-}
-
-.form-box input {
-  padding: 10px 13px;
-  margin: 5px;
-  width: calc(30% - 10px);
-  border: 1.5px solid var(--neutral-300);
-  border-radius: var(--radius-xs);
-  font-family: inherit;
-  font-size: 14px;
-  color: var(--neutral-900);
-  background: white;
-  outline: none;
-  transition: border-color 0.18s ease;
-}
-
-.form-box input:focus {
-  border-color: var(--red-700);
-}
-
-.form-box button {
-  padding: 10px 18px;
-  margin: 5px;
-  border: none;
-  background: var(--red-700);
-  color: white;
-  cursor: pointer;
-  border-radius: var(--radius-xs);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.18s ease;
-}
-
-.form-box button:hover {
-  background: var(--red-600);
-}
-
-.danger {
-  background: #DC2626 !important;
-}
-
-.danger:hover {
-  background: #B91C1C !important;
-}
-
-@media (max-width: 768px) {
-  .form-box input,
-  .form-box button {
-    width: calc(100% - 10px);
-    font-size: 14px;
-  }
 }
 
 /* =====================
@@ -637,12 +565,6 @@ footer strong {
   font-weight: 700;
   margin: 0;
   line-height: 1.4;
-}
-
-.summary-box .currency {
-  font-size: 13px;
-  margin-top: 4px;
-  opacity: 0.85;
 }
 
 .summary-box.income {
@@ -761,8 +683,7 @@ footer strong {
 /* =====================
    EXPENSE / INCOME CONTAINERS
    ===================== */
-.expense-container,
-.income-container {
+.expense-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 18px;
@@ -770,16 +691,14 @@ footer strong {
 }
 
 @media (max-width: 768px) {
-  .expense-container,
-  .income-container {
+  .expense-container {
     grid-template-columns: 1fr;
     gap: 12px;
     margin-top: 14px;
   }
 }
 
-.expense-category,
-.income-category {
+.expense-category {
   background: white;
   padding: 20px 22px;
   border-radius: var(--radius-md);
@@ -789,8 +708,7 @@ footer strong {
   cursor: default;
 }
 
-.expense-category:hover,
-.income-category:hover {
+.expense-category:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
@@ -805,22 +723,11 @@ footer strong {
   letter-spacing: 0.1px;
 }
 
-.income-category h3 {
-  color: var(--green-700);
-  margin: 0 0 13px 0;
-  font-size: 14px;
-  font-weight: 700;
-  padding-bottom: 11px;
-  border-bottom: 1.5px solid var(--green-100);
-}
-
-.expense-items,
-.income-items {
+.expense-items {
   margin-bottom: 12px;
 }
 
-.expense-item,
-.income-item {
+.expense-item {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -829,13 +736,11 @@ footer strong {
   gap: 10px;
 }
 
-.expense-item:last-child,
-.income-item:last-child {
+.expense-item:last-child {
   border-bottom: none;
 }
 
-.expense-name,
-.income-name {
+.expense-name {
   flex: 1;
   color: var(--neutral-700);
   font-size: 13px;
@@ -850,13 +755,6 @@ footer strong {
   text-align: right;
 }
 
-.income-amount {
-  color: var(--green-700);
-  font-weight: 600;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
 .category-total {
   background: var(--neutral-100);
   padding: 10px 14px;
@@ -869,8 +767,7 @@ footer strong {
 }
 
 @media (max-width: 768px) {
-  .expense-category,
-  .income-category {
+  .expense-category {
     padding: 16px;
   }
 }

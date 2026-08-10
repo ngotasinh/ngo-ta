@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lý chi tiêu – Nhánh Nhì Họ Ngô Tá</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,12 +15,12 @@
 
   <header class="sub-header">
     <h1>Quản lý Tài Chính</h1>
-    <nav>
+    <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang Chủ</a>
       <a href="list.html">Đóng Tiền Chạp</a>
       <a href="list-san.html">Ủng Hộ Làm Sân</a>
       <a href="list-ho.html">Đóng Tiền Họ</a>
-      <a href="expense.html" class="active">Tài Chính</a>
+      <a href="expense.html" class="active" aria-current="page">Tài Chính</a>
     </nav>
   </header>
 
@@ -44,36 +47,7 @@
     <!-- CHI TIẾT TIỀN THU -->
     <section class="section income-detail">
       <h2>Chi tiết Tiền Thu</h2>
-      <div class="income-breakdown">
-        <div class="breakdown-item">
-          <span class="label">Tiền Con Cháu Nội:</span>
-          <span class="value" id="chap-total">0 đ</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="label">Tiền Ủng Hộ Làm Sân:</span>
-          <span class="value" id="san-income-total">0 đ</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="label">Tiền Đóng Họ:</span>
-          <span class="value" id="ho-income-total">0 đ</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="label">Tiền Đi Của Con Cháu Ngoại:</span>
-          <span class="value" id="outside-total">66,000,000 đ</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="label">Tiền Bán Thịt Bò:</span>
-          <span class="value" id="beef-total">2,990,000 đ</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="label">Tiền Quỹ Còn Lại:</span>
-          <span class="value" id="fund-total">2,800,000 đ</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="label">Tiền Cúng USD:</span>
-          <span class="value" id="usd-total">0 USD</span>
-        </div>
-      </div>
+      <div class="income-breakdown" id="income-breakdown"></div>
     </section>
 
     <!-- CHI TIẾT TIỀN CHI -->
@@ -89,21 +63,18 @@
   </footer>
 
   <script>
-    const CONFIG = {
-      totalUSD: 200,
-      outsideTotal: 66000000,
-      beefTotal: 2990000,
-      fundTotal: 2800000
-    };
+    // Income sources that are computed by summing a contributor list.
+    const INCOME_LISTS = [
+      { label: "Tiền Con Cháu Nội", url: "data.json" },
+      { label: "Tiền Ủng Hộ Làm Sân", url: "data-san.json" },
+      { label: "Tiền Đóng Họ", url: "data-ho.json" }
+    ];
 
-    let state = {
+    const state = {
       totalIncomeVND: 0,
       totalIncomeUSD: 0,
       totalExpenseVND: 0,
-      totalExpenseUSD: 0,
-      chapTotal: 0,
-      sanTotal: 0,
-      hoTotal: 0
+      totalExpenseUSD: 0
     };
 
     function formatCurrency(vnd, usd = 0) {
@@ -113,84 +84,147 @@
       return "0";
     }
 
+    function formatAmount(value, currency) {
+      return currency === "USD" ? `${value} USD` : `${value.toLocaleString('vi-VN')} đ`;
+    }
+
+    function fetchJson(url) {
+      return fetch(url).then(res => {
+        if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+        return res.json();
+      });
+    }
+
+    function sumMoney(rows) {
+      return rows.reduce((sum, row) => sum + (Number.isFinite(row.money) ? row.money : 0), 0);
+    }
+
     function updateAllDisplays() {
-      document.getElementById("total-income").innerText  = formatCurrency(state.totalIncomeVND,  state.totalIncomeUSD);
-      document.getElementById("total-expense").innerText = formatCurrency(state.totalExpenseVND, state.totalExpenseUSD);
+      document.getElementById("total-income").textContent  = formatCurrency(state.totalIncomeVND, state.totalIncomeUSD);
+      document.getElementById("total-expense").textContent = formatCurrency(state.totalExpenseVND, state.totalExpenseUSD);
 
       const balanceVND = state.totalIncomeVND - state.totalExpenseVND;
       const balanceUSD = state.totalIncomeUSD - state.totalExpenseUSD;
-      document.getElementById("total-balance").innerText = formatCurrency(balanceVND, balanceUSD);
+      document.getElementById("total-balance").textContent = formatCurrency(balanceVND, balanceUSD);
+    }
+
+    function renderIncomeBreakdown(rows) {
+      const fragment = document.createDocumentFragment();
+
+      rows.forEach(row => {
+        const item = document.createElement("div");
+        item.className = "breakdown-item";
+
+        const label = document.createElement("span");
+        label.className = "label";
+        label.textContent = `${row.label}:`;
+
+        const value = document.createElement("span");
+        value.className = "value";
+        value.textContent = formatAmount(row.value, row.currency);
+
+        item.append(label, value);
+        fragment.appendChild(item);
+      });
+
+      document.getElementById("income-breakdown").replaceChildren(fragment);
+    }
+
+    function renderExpenses(categories) {
+      state.totalExpenseVND = 0;
+      state.totalExpenseUSD = 0;
+      const fragment = document.createDocumentFragment();
+
+      categories.forEach(cat => {
+        let catVND = 0;
+        let catUSD = 0;
+
+        const items = document.createElement("div");
+        items.className = "expense-items";
+
+        cat.items.forEach(item => {
+          const amount = Number.isFinite(item.amount) ? item.amount : 0;
+          if (item.currency === "USD") {
+            state.totalExpenseUSD += amount;
+            catUSD += amount;
+          } else {
+            state.totalExpenseVND += amount;
+            catVND += amount;
+          }
+
+          const row = document.createElement("div");
+          row.className = "expense-item";
+
+          const name = document.createElement("span");
+          name.className = "expense-name";
+          name.textContent = item.name;
+
+          const value = document.createElement("span");
+          value.className = "expense-amount";
+          value.textContent = `${amount.toLocaleString('vi-VN')} ${item.currency}`;
+
+          row.append(name, value);
+          items.appendChild(row);
+        });
+
+        const title = document.createElement("h3");
+        title.textContent = cat.category;
+
+        const total = document.createElement("div");
+        total.className = "category-total";
+        const totalValue = document.createElement("strong");
+        totalValue.textContent = formatCurrency(catVND, catUSD);
+        total.append("Tổng: ", totalValue);
+
+        const box = document.createElement("div");
+        box.className = "expense-category";
+        box.append(title, items, total);
+        fragment.appendChild(box);
+      });
+
+      document.getElementById("expense-container").replaceChildren(fragment);
     }
 
     async function loadFinanceData() {
       try {
-        const [chapData, sanData, hoData, expenseData] = await Promise.all([
-          fetch("data.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-          fetch("data-san.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-          fetch("data-ho.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-          fetch("expense-data.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        const [listData, otherIncome, expenseData] = await Promise.all([
+          Promise.all(INCOME_LISTS.map(source => fetchJson(source.url))),
+          fetchJson("income-other.json"),
+          fetchJson("expense-data.json")
         ]);
 
-        state.chapTotal = chapData.reduce((s, i) => s + i.money, 0);
-        document.getElementById("chap-total").innerText = state.chapTotal.toLocaleString('vi-VN') + " đ";
+        const breakdown = [
+          ...INCOME_LISTS.map((source, i) => ({
+            label: source.label,
+            value: sumMoney(listData[i]),
+            currency: "đ"
+          })),
+          ...otherIncome.map(row => ({
+            label: row.name,
+            value: Number.isFinite(row.money) ? row.money : 0,
+            currency: row.currency
+          }))
+        ];
 
-        state.sanTotal = sanData.reduce((s, i) => s + i.money, 0);
-        document.getElementById("san-income-total").innerText = state.sanTotal.toLocaleString('vi-VN') + " đ";
+        renderIncomeBreakdown(breakdown);
 
-        state.hoTotal = hoData.reduce((s, i) => s + i.money, 0);
-        document.getElementById("ho-income-total").innerText = state.hoTotal.toLocaleString('vi-VN') + " đ";
+        state.totalIncomeVND = breakdown
+          .filter(row => row.currency !== "USD")
+          .reduce((sum, row) => sum + row.value, 0);
+        state.totalIncomeUSD = breakdown
+          .filter(row => row.currency === "USD")
+          .reduce((sum, row) => sum + row.value, 0);
 
-        document.getElementById("outside-total").innerText = CONFIG.outsideTotal.toLocaleString('vi-VN') + " đ";
-        document.getElementById("beef-total").innerText    = CONFIG.beefTotal.toLocaleString('vi-VN') + " đ";
-        document.getElementById("fund-total").innerText    = CONFIG.fundTotal.toLocaleString('vi-VN') + " đ";
-        document.getElementById("usd-total").innerText      = CONFIG.totalUSD + " USD";
-
-        state.totalIncomeVND = state.chapTotal + state.sanTotal + state.hoTotal + CONFIG.outsideTotal + CONFIG.beefTotal + CONFIG.fundTotal;
-        state.totalIncomeUSD = CONFIG.totalUSD;
-
-        processExpenseData(expenseData);
+        renderExpenses(expenseData);
         updateAllDisplays();
 
       } catch (err) {
+        // Surface the failure instead of leaving misleading zeros on screen
         console.error("Lỗi tải dữ liệu:", err);
-        ["total-income","total-expense","total-balance"].forEach(id => {
-          document.getElementById(id).innerText = "Lỗi tải dữ liệu";
+        ["total-income", "total-expense", "total-balance"].forEach(id => {
+          document.getElementById(id).textContent = "Lỗi tải dữ liệu";
         });
       }
-    }
-
-    function processExpenseData(expenseData) {
-      state.totalExpenseVND = 0;
-      state.totalExpenseUSD = 0;
-      let html = "";
-
-      expenseData.forEach(cat => {
-        let catVND = 0, catUSD = 0, itemsHtml = "";
-
-        cat.items.forEach(item => {
-          if (item.currency === "USD") {
-            state.totalExpenseUSD += item.amount;
-            catUSD += item.amount;
-          } else {
-            state.totalExpenseVND += item.amount;
-            catVND += item.amount;
-          }
-          itemsHtml += `
-            <div class="expense-item">
-              <span class="expense-name">${item.name}</span>
-              <span class="expense-amount">${item.amount.toLocaleString('vi-VN')} ${item.currency}</span>
-            </div>`;
-        });
-
-        html += `
-          <div class="expense-category">
-            <h3>${cat.category}</h3>
-            <div class="expense-items">${itemsHtml}</div>
-            <div class="category-total">Tổng: <strong>${formatCurrency(catVND, catUSD)}</strong></div>
-          </div>`;
-      });
-
-      document.getElementById("expense-container").innerHTML = html;
     }
 
     document.addEventListener("DOMContentLoaded", loadFinanceData);

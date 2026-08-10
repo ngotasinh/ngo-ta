@@ -5,25 +5,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đóng Tiền Chạp – Nhánh Nhì Họ Ngô Tá</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <header class="sub-header">
-    <h1>Danh sách đóng tiền chạp</h1>
-    <nav>
+    <h1 id="page-title">Danh sách đóng tiền chạp</h1>
+    <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang Chủ</a>
-      <a href="list.html" class="active">Đóng Tiền Chạp</a>
+      <a href="list.html" class="active" aria-current="page">Đóng Tiền Chạp</a>
       <a href="list-san.html">Ủng Hộ Làm Sân</a>
       <a href="list-ho.html">Đóng Tiền Họ</a>
-      <a href="expense.html">Chi tiêu</a>
+      <a href="expense.html">Tài Chính</a>
     </nav>
   </header>
 
   <main>
 
-    <div class="summary">
+    <div class="summary" aria-live="polite">
       Tổng tiền: <strong id="total">0</strong> đ
     </div>
 
@@ -31,14 +34,14 @@
       Gia Đình: Ngô Minh Châu cúng 100 USD &nbsp;·&nbsp; V/C: Ngô Thị Như Hằng cúng 100 USD
     </div>
 
-    <table>
+    <table aria-labelledby="page-title">
       <thead>
         <tr>
-          <th>STT</th>
-          <th>Họ và tên</th>
-          <th>Thời gian</th>
-          <th>Số tiền</th>
-          <th>Ghi chú</th>
+          <th scope="col">STT</th>
+          <th scope="col">Họ và tên</th>
+          <th scope="col">Thời gian</th>
+          <th scope="col">Số tiền</th>
+          <th scope="col">Ghi chú</th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -50,40 +53,9 @@
     <p>&copy; 2026 Nhánh Nhì Họ Ngô Tá</p>
   </footer>
 
+  <script src="table-page.js"></script>
   <script>
-    fetch("data.json")
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        let html = "";
-        let total = 0;
-
-        data.forEach((item, index) => {
-          total += item.money;
-
-          html += `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${item.name}</td>
-                <td>${item.time}</td>
-                <td>${item.money.toLocaleString('vi-VN')} đ</td>
-                <td>${item.notice}</td>
-            </tr>
-            `;
-        });
-
-        document.getElementById("table-body").innerHTML = html;
-        document.getElementById("total").innerText = total.toLocaleString('vi-VN');
-      })
-      .catch(err => {
-        // Surface the failure instead of leaving a misleading "0 đ" on screen
-        console.error("Lỗi tải dữ liệu:", err);
-        document.getElementById("total").innerText = "— lỗi tải dữ liệu —";
-        document.getElementById("table-body").innerHTML =
-          `<tr><td colspan="5">Không tải được dữ liệu. Vui lòng tải lại trang.</td></tr>`;
-      });
+    renderMoneyTable("data.json");
   </script>
 
 </body>
